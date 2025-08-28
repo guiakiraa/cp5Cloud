@@ -1,4 +1,6 @@
+<img width="702" height="331" alt="Image" src="https://github.com/user-attachments/assets/5c39aea0-fe38-4f26-82c2-11f0ea537183" />
 
+<img width="452" height="640" alt="Image" src="https://github.com/user-attachments/assets/d6822ffd-127c-4d89-b646-bff418adc525" />
 # CP5 Docker Compose
 
 Este projeto utiliza **Docker Compose** para orquestrar um ambiente completo com **MySQL**, **Backend em Python (FastAPI)** e **Frontend em Next.js**.
