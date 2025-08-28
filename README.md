@@ -1,5 +1,5 @@
 
-# �� Projeto com Docker Compose - RM556128
+# CP5 Docker Compose
 
 Este projeto utiliza **Docker Compose** para orquestrar um ambiente completo com **MySQL**, **Backend em Python (FastAPI)** e **Frontend em Next.js**.
 
