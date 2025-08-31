@@ -1,4 +1,4 @@
-# CP5 Docker Compose
+# CP4 Docker Compose
 
 Este projeto utiliza **Docker Compose** para orquestrar um ambiente completo com **MySQL**, **Backend em Python (FastAPI)** e **Frontend em Next.js**.
 
