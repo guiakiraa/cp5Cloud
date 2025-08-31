@@ -18,6 +18,66 @@ Este projeto utiliza **Docker Compose** para orquestrar um ambiente completo com
 
 ---
 
+### Serviços do Projeto
+
+O projeto é composto por **três serviços principais**:
+
+- **mysql-db**
+  - Banco de dados relacional (MySQL).
+  - Usa volume para persistência de dados.
+  - Carrega scripts de inicialização a partir de `./database/docker-entrypoint-initdb.d`.
+
+- **backend**
+  - Serviço responsável pela lógica de negócio e pela API.
+  - Conecta ao banco de dados via variável de ambiente `DATABASE_URL`.
+  - Porta exposta: `8000`.
+
+- **frontend**
+  - Interface do usuário (Next.js).
+  - Conecta-se ao backend via variável `NEXT_PUBLIC_API_URL`.
+  - Porta exposta: `3000`.
+
+---
+
+### Dependências entre os Serviços
+
+Fluxo de dependência:
+
+frontend ───> backend ───> mysql-db
+
+- **frontend** depende do **backend**.
+- **backend** depende do **mysql-db**.
+- **mysql-db** não depende de nenhum serviço, mas possui healthcheck para garantir que esteja pronto antes dos demais subirem.
+
+---
+
+### Estratégia de Containerização
+
+### a) MySQL (`mysql-db`)
+- Baseado na imagem oficial do MySQL.
+- Volumes:
+  - `db_data` → persistência dos dados.
+  - `./database/docker-entrypoint-initdb.d` → scripts de inicialização.
+- Healthcheck: garante que o banco esteja pronto antes de liberar o backend.
+
+### b) Backend (`backend`)
+- Build customizado (`./backend/Dockerfile`).
+- Estratégia:
+  - Multistage build para otimizar tamanho da imagem.
+  - Variáveis de ambiente carregadas via `.env`.
+  - `depends_on` configurado para aguardar o MySQL.
+- Porta exposta: `8000`.
+
+### c) Frontend (`frontend`)
+- Build customizado (`./frontend/Dockerfile`).
+- Estratégia:
+  - Multistage build (ex.: build com `npm run build`, execução com `next start`).
+  - Usa `NEXT_PUBLIC_API_URL` para comunicação com o backend.
+  - `depends_on` configurado para aguardar o backend.
+- Porta exposta: `3000`.
+
+---
+
 ## ✅ Pré-requisitos
 
 - Docker instalado na máquina
